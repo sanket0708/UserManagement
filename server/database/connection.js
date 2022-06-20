@@ -4,8 +4,8 @@ const connectDB = async () => {
     try {
         //mongodb connection string
 
-        const URI = process.env.MONGO_URL;
-        mongoose.connect(URI,
+        const con = process.env.MONGO_URI;
+        mongoose.connect(con,
             err => {
                 if (err) throw err;
                 console.log('MongoDB connected');
