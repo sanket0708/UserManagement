@@ -37,13 +37,33 @@ exports.create = (req, res) => {
 
 exports.find = (req, res) => {
 
-    Userdb.find()
-        .then(user => {
-            res.send(user)
-        })
-        .catch(err => {
-            res.status(500).send({ messgae: err.message || "Error occur while retrieving user information" })
-        })
+    if (req.query.id) {
+        const id = req.query.id;
+
+        Userdb.findById(id)
+            .then(data => {
+                if (!data) {
+                    res.status(404).send({ message: "Not found user with id" + id })
+                } else {
+                    res.send(data)
+                }
+            })
+
+            .catch(err => {
+                res.status(500).send({ message: "Err retrieving user with id" + id })
+            })
+
+    } else {
+        Userdb.find()
+            .then(user => {
+                res.send(user)
+            })
+            .catch(err => {
+                res.status(500).send({ messgae: err.message || "Error occur while retrieving user information" })
+            })
+
+    }
+
 
 
 }
